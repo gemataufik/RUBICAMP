@@ -34,21 +34,17 @@ INSERT INTO jadwal(num,nim,nip,id_matkul)VALUES(1, "41815172", "001", "X01");
 CREATE TABLE mata_kuliah (
     id_matkul CHARACTER(3) PRIMARY KEY NOT NULL,
     nama_matkul VARCHAR(100) NOT NULL,
-    sks INTEGER NOT NULL,
-    nip CHARACTER(3) NOT NULL,
-    FOREIGN KEY (nip) REFERENCES dosen (nip)
+    sks INTEGER NOT NULL
 );
 
 INSERT INTO mata_kuliah VALUES
-("X01", "Pengantar IP", 3, "001");
+("X01", "Pengantar IP", 3);
 
 CREATE TABLE dosen (
     nip CHARACTER(3) PRIMARY KEY NOT NULL,
-    nama VARCHAR(100) NOT NULL,
-    id_matkul CHARACTER(3) NOT NULL,
-    FOREIGN KEY (id_matkul) REFERENCES mata_kuliah(id_matkul)
+    nama VARCHAR(100) NOT NULL
 );
 
 INSERT INTO dosen VALUES
-("001", "Rubi Henjaya", "X01");
+("001", "Rubi Henjaya");
 
