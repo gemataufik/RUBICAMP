@@ -62,6 +62,12 @@ INSERT INTO jadwal (nim,nip,id_matkul,nilai)VALUES
 ("41815100","002", "X02", "B"),
 ("41815100","005", "X05", "C");
 
+INSERT INTO jadwal (nim,nip,id_matkul,nilai)VALUES
+("41815100", "003", "X04", "B");
+
+INSERT INTO jadwal (nim,nip,id_matkul,nilai)VALUES
+("41815190", "004", "X04", "C");
+
 UPDATE jadwal SET nilai = "E" WHERE num = 1;  
 
 CREATE TABLE mata_kuliah (
@@ -90,21 +96,28 @@ INSERT INTO dosen VALUES
 ("005", "Wiji Tukul");
 
 --Soal 1
-SELECT nim,nama,alamat,umur,jurusan.id_jurusan,jurusan.Nama_Jurusan FROM mahasiswa INNER JOIN jurusan ON mahasiswa.id_jurusan = jurusan.id_jurusan;
+SELECT nim,nama,alamat,umur,jurusan.Nama_Jurusan FROM mahasiswa INNER JOIN jurusan ON mahasiswa.id_jurusan = jurusan.id_jurusan;
+
 --Soal 2
-SELECT nim,nama,alamat,umur,jurusan.id_jurusan,jurusan.Nama_Jurusan FROM jurusan INNER JOIN mahasiswa ON mahasiswa.id_jurusan = jurusan.id_jurusan WHERE mahasiswa.umur <20;
+SELECT nama,umur,jurusan.Nama_Jurusan FROM jurusan INNER JOIN mahasiswa ON mahasiswa.id_jurusan = jurusan.id_jurusan WHERE mahasiswa.umur <20;
+
 --Soal 3
 SELECT nama,mata_kuliah.nama_matkul, nilai FROM MAHASISWA INNER JOIN jadwal ON mahasiswa.nim = jadwal.nim INNER JOIN mata_kuliah ON jadwal.id_matkul = mata_kuliah.id_matkul WHERE jadwal.nilai = "A" OR "B";
+
 --Soal 4
-SELECT mahasiswa.*,(mata_kuliah.sks) as total_sks FROM mahasiswa INNER JOIN jadwal ON jadwal.nim = mahasiswa.nim INNER JOIN mata_kuliah ON jadwal.id_matkul = mata_kuliah.id_matkul GROUP BY mahasiswa.nim HAVING SUM (mata_kuliah.sks) >10;
+SELECT mahasiswa.nama,(mata_kuliah.sks) as total_sks FROM mahasiswa INNER JOIN jadwal ON jadwal.nim = mahasiswa.nim INNER JOIN mata_kuliah ON jadwal.id_matkul = mata_kuliah.id_matkul GROUP BY mahasiswa.nim HAVING SUM (mata_kuliah.sks) >10;
+
 --Soal 5
-
--- SELECT mahasiswa.nama, mata_kuliah.nama_matkul FROM mahasiswa INNER JOIN jadwal ON jadwal.nim = mahasiswa.nim INNER JOIN mata_kuliah ON jadwal.id_matkul = mata_kuliah.id_matkul WHERE mata_kuliah.nama_matkul LIKE "%Data Maining%"; 
-
+--jwbn 1
+SELECT mahasiswa.nama, mata_kuliah.nama_matkul FROM mahasiswa INNER JOIN jadwal ON jadwal.nim = mahasiswa.nim INNER JOIN mata_kuliah ON jadwal.id_matkul = mata_kuliah.id_matkul WHERE mata_kuliah.nama_matkul LIKE "%Data Maining%"; 
+--jwbn 2
 SELECT mahasiswa.nama, mata_kuliah.nama_matkul FROM mahasiswa INNER JOIN jadwal ON jadwal.nim = mahasiswa.nim INNER JOIN mata_kuliah ON jadwal.id_matkul = mata_kuliah.id_matkul WHERE mata_kuliah.nama_matkul = "Data Maining"; 
+ 
+ --Soal 6
+SELECT dosen.nip, dosen.nama_dosen, COUNT (DISTINCT mahasiswa.nim) AS total_mahasiswa FROM dosen INNER JOIN jadwal ON dosen.nip = jadwal.nip INNER JOIN mahasiswa ON mahasiswa.nim = jadwal.nim GROUP BY dosen.nip;
 
-SELECT DISTINCT dosen.nama_dosen as dosen, COUNT (mahasiswa.nama) as total_mahasiswa FROM dosen INNER JOIN jadwal ON jadwal.nip = dosen.nip INNER JOIN mahasiswa ON jadwal.nim = mahasiswa.nim GROUP BY dosen.nama_dosen; 
-
+--Soal 7
 SELECT nama,umur FROM mahasiswa ORDER BY umur asc;
-
-SELECT mata_kuliah.nama_matkul, 
+ 
+ --8
+SELECT mahasiswa.nama,mahasiswa.nim,jurusan.nama_jurusan,dosen.nama_dosen,mata_kuliah.nama_matkul, nilai FROM MAHASISWA INNER JOIN jadwal ON mahasiswa.nim = jadwal.nim INNER JOIN mata_kuliah ON jadwal.id_matkul = mata_kuliah.id_matkul INNER JOIN dosen ON jadwal.nip = dosen.nip INNER JOIN jurusan ON mahasiswa.id_jurusan = jurusan.id_jurusan WHERE jadwal.nilai BETWEEN "D" AND "E";
